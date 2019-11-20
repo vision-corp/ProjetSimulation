@@ -30,7 +30,8 @@ public class lois {
      * @return une simulation de la loi
      */
     public static boolean loiBernouilli(double p) {
-        return Math.random() < p;
+        return false; //STUB
+        
     }
     
     /**
@@ -40,22 +41,7 @@ public class lois {
      * @return une simulation de la loi
      */
     public static double loiBinomiale(int n, double p) {
-        int nbVrai = 0;
-        for (int i = 0; i < n; i++) {
-            if(loiBernouilli(p)) {
-                nbVrai++;
-            }
-        }
-        return nbVrai/p;        
-    }
-    
-    /**
-     * Simule une loi Exponantielle
-     * @param lambda
-     * @return une simulation de la loi
-     */
-    public static double Exponentielle(double lambda) {
-        return lambda; //STUB
+        return p; //STUB
         
     }
     
