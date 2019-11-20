@@ -1,0 +1,25 @@
+/*
+ * Loi.java                                                                                 20/11/2019
+ * Pas de copyright
+ */
+
+package projetModel;
+
+/**
+ * Classe à implémenter pour chaque loi simulée
+ *
+ * @author tommargalejo
+ * @version 1.0
+ */
+public abstract class Loi{
+    private double[] simulations;
+    private int nbSimulations;
+
+
+    /**
+     * Méthode à définir pour chaque loie simulée
+     * @return tableau contenant toutes les simulations effectuées
+     */
+    public abstract double[] simuler() throws ErreurParametresLoi;
+
+}

@@ -1,0 +1,17 @@
+/*
+ * ErreurParametresLoi.java                                                                                 20/11/2019
+ * Pas de copyright
+ */
+
+/**
+ * Erreur levée lorsque des paramètres incorrrectes sont placés
+ *
+ * @author tommargalejo
+ * @version 1.0
+ */
+public class ErreurParametresLoi extends Exception {
+
+    public ErreurParametresLoi(String loi) {
+        super("Impossible de simuler une loi " + loi + "avec ces paramètres");
+    }
+}
