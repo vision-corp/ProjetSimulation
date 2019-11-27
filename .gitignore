@@ -2,6 +2,8 @@
 .metadata
 .idea/
 .idea
+.classpath
+.project
 
 # Compiled class file
 *.class
