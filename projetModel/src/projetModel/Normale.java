@@ -1,34 +1,66 @@
-/**
- * Normale.java						20 nov. 2019
- * IUT info1 2018-2019 TD2, no copyright, no copyleft
+/*
+ * Normale.java                07/11/19
+ * Pas de copyright ou de copyleft
  */
-package projetModel;
+
+
+import static java.lang.Math.*;
+
+/*
+    Simulation de la loi normale :
+    Si U1 et U2 sont deux variable de aléatoire indépendante de la loi uniforme sur l'intervale [0,1]
+    alors la variable aléatoire Y = sqrt(-2ln(U1))*cos(2*PI*U2) suit une loi normale centrée et réduite
+
+    T = ecartType*Y + esperance
+
+ */
 
 /**
- * TODO commenter les responsabilit�s de cette classe
- * @author flori
- *
+ * Classe modélisant une loi normale
+ * Choix des indicateurs : espérance et écart type
  */
 public class Normale extends Loi{
 
+    /** Espérance de la loi normale */
+    private double esperence;
+
+    /** Ecart type de la loi normale */
+    private double ecartType;
+
     /**
-     * Simule une loi Normale
-     * @param esperance
-     * @param ecartTtype
-     * @return une simulation de la loi
+     * Constructeur de la loi normale
+     * @param newEsperence espérance
+     * @param newEcartType
      */
-    public static double loiNormale(double esperance, double ecartTtype) {
-        return ecartTtype; //STUB
-        
+    public Normale(double newEsperence, double newEcartType, int newNbSimulation) {
+        this.ecartType = newEcartType;
+        this.esperence = newEsperence;
+        this.nbSimulations = newNbSimulation;
     }
 
-    /* (non-Javadoc)
-     * @see projetModel.Loi#simuler()
+    /**
+     * Simule une loi normale avec son espérance et son écart-type
+     * @return les simulations de la loi
+     * @throws ErreurParametresLoi
      */
     @Override
     public double[] simuler() throws ErreurParametresLoi {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
+        double[] aRetourner = new double[this.nbSimulations];
+
+        double variable1, //Premiere variable a simuler
+               variable2, //Deuxième variable a simuler
+               normaleCentree;
+
+        for(int i = 0; i<this.nbSimulations; i++) {
+
+            variable1 = random(); // Génération de la premiere valeur dans [0,1]
+            variable2 = random(); // Génération de la deuxième valeur dans [0,1]
+
+            normaleCentree = sqrt(-2*log(variable1))*cos(2*PI*variable2);
+            aRetourner[i] = ecartType * normaleCentree + esperence;
+        }
+
+        return aRetourner;
+    }
 }

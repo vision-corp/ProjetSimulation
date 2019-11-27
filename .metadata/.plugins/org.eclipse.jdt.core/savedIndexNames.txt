@@ -1,2 +1,0 @@
-INDEX VERSION 1.131+/Users/tommargalejo/Desktop/simulationMathsV4/ProjetSimulation/.metadata/.plugins/org.eclipse.jdt.core
-1179972067.index

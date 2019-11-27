@@ -1,33 +1,50 @@
-/**
- * Exponentielle.java						20 nov. 2019
- * IUT info1 2018-2019 TD2, no copyright, no copyleft
+/*
+ * Exponentielle.java                07/11/19
+ * Pas de copyright ou de copyleft
  */
-package projetModel;
+
+/*
+    Simulation de la loi exponentielle :
+    Si X suit une loi uniforme sur [0,1], alors (-1/lambda)*ln(1 - X) suit une loi de paramètre lambda
+
+ */
+
+import static java.lang.Math.log;
+import static java.lang.Math.random;
 
 /**
- * TODO commenter les responsabilit�s de cette classe
- * @author flori
- *
+ * Classe modélisant une loi exponentielle
+ * Permettant de calculer ses indicateurs
+ * Choix du paramètre lambda
+ * Sur l'ensemble des réels strictement positif
  */
 public class Exponentielle extends Loi {
 
+    /** Paramètre lambda de la loi exponentielle */
+    private double lambda;
+
     /**
-     * Simule une loi Exponantielle
-     * @param lambda
-     * @return une simulation de la loi
+     * Constructeur de la loi exponentielle
+     * @param newLambda paramètre lambda de la loi exponentielle a créer
      */
-    public static double loiExponentielle(double lambda) {
-        return lambda; //STUB
-        
+    public Exponentielle(double newLambda, int newNbSimulation) {
+        this.lambda = newLambda;
+        this.nbSimulations = newNbSimulation;
     }
 
-    /* (non-Javadoc)
-     * @see projetModel.Loi#simuler()
+    /**
+     * Simule la loi exponentielle
      */
     @Override
     public double[] simuler() throws ErreurParametresLoi {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
+        double[] aRetourner = new double[nbSimulations];
+
+        double variable; // Variable aléatoire dans [0,1]
+        for (int i=0; i<this.nbSimulations; i++) {
+            variable = random();
+            aRetourner[i] = (-1/this.lambda)*log(1-variable);
+        }
+        return aRetourner;
+    }
 }
