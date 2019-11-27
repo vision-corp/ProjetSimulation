@@ -40,6 +40,10 @@ public class Uniforme extends Loi{
             this.simulations[i] = Math.round((a + (b - a) * Math.random()));
         }
         
+        this.esperence = (double)(a + b) / 2;
+        
+        this.ecartType = Math.sqrt((double)((b - a) * (b - a)) / 12);
+        
         return this.simulations;
     }
 
