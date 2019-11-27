@@ -5,30 +5,43 @@
 package projetModel;
 
 /**
- * TODO commenter les responsabilités de cette classe
- * @author flori
+ * Simule une loi uniforme
  *
+ * @author tommargalejo
+ * @version 1.0
  */
 public class Uniforme extends Loi{
 
+    /** Borne infÃ©rieur */
+    private int a;
+    /** Borne supÃ©rieur */
+    private int b;
+
     /**
-     * Simule une loi Uniforme
-     * @param a borne inferieur de l'intervalle
-     * @param b borne supérieur de l'intervalle
-     * @return  une simulation de la loi
+     * commenter l'etat initial atteint
+     * @param a
+     * @param b
+     * @param nbSimulations
+     * @throws ErreurParametresLoi
      */
-    public static double loiUniforme(int a, int b) {
-        return b; //STUB
-        
+    public Uniforme(int a, int b, int nbSimulations) throws ErreurParametresLoi {
+        if (b < a || nbSimulations < 1) {
+            throw new ErreurParametresLoi("UniformeDiscrete");
+        }
+        this.a = a;
+        this.b = b;
+        this.nbSimulations = nbSimulations;
+        this.simulations = new double[nbSimulations];
     }
 
-    /* (non-Javadoc)
-     * @see projetModel.Loi#simuler()
-     */
     @Override
     public double[] simuler() throws ErreurParametresLoi {
-        // TODO Auto-generated method stub
-        return null;
+        for(int i = 0; i < this.nbSimulations; i++) {
+            this.simulations[i] = Math.round((a + (b - a) * Math.random()));
+        }
+        
+      
+        return this.simulations;
     }
 
 }

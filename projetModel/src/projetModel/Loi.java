@@ -6,7 +6,7 @@
 package projetModel;
 
 /**
- * Classe à implémenter pour chaque loi simulée
+ * Classe ï¿½ implï¿½menter pour chaque loi simulï¿½e
  *
  * @author tommargalejo
  * @version 1.0
@@ -14,20 +14,20 @@ package projetModel;
 public abstract class Loi{
     
     /** tableau de resultat de la simulation */
-    private double[] simulations;
+    protected double[] simulations;
     /** nombre de simulations */
-    private int nbSimulations;
+    protected int nbSimulations;
     
     /** esperence de la loi */
-    private double esperence;
+    protected double esperence;
     
     /** ecar-type */
-    private double ecartType;
+    protected double ecartType;
 
 
     /**
-     * Méthode à définir pour chaque loie simulée
-     * @return tableau contenant toutes les simulations effectuées
+     * Mï¿½thode ï¿½ dï¿½finir pour chaque loie simulï¿½e
+     * @return tableau contenant toutes les simulations effectuï¿½es
      * @throws ErreurParametresLoi 
      */
     public abstract double[] simuler() throws ErreurParametresLoi;
