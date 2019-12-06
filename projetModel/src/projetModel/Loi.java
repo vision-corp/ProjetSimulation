@@ -30,7 +30,7 @@ public abstract class Loi{
      * @return tableau contenant toutes les simulations effectu�es
      * @throws ErreurParametresLoi
      */
-    public abstract double[] simuler() throws ErreurParametresLoi;
+    public abstract void simuler() throws ErreurParametresLoi;
 
     /**
      * Calcule la variance d'une loi en fonction des ses paramètres

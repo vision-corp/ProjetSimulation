@@ -12,7 +12,7 @@ import projetModel.Normale;
 /**
  * Classe de test des classes Exponentielle.java et Normale.java
  */
-public class TestClassesExpoNormale {
+public class TestClasses {
 
     public static void testExpo(double lambda, int nbSimulations) {
 
@@ -41,7 +41,7 @@ public class TestClassesExpoNormale {
      * @param args non utilisé
      */
     public static void main(String[] args) {
-        testExpo(0.1,10);
+        //testExpo(0.1,10);
         //testNormale();
     }
 }

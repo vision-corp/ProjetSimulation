@@ -32,22 +32,20 @@ public class Exponentielle extends Loi {
     public Exponentielle(double newLambda, int newNbSimulation) {
         this.lambda = newLambda;
         this.nbSimulations = newNbSimulation;
+        this.simulations = new double[nbSimulations];
     }
 
     /**
      * Simule la loi exponentielle
      */
     @Override
-    public double[] simuler() throws ErreurParametresLoi {
-
-        double[] aRetourner = new double[nbSimulations];
+    public void simuler() throws ErreurParametresLoi {
 
         double variable; // Variable aléatoire dans [0,1]
         for (int i=0; i<this.nbSimulations; i++) {
             variable = random();
-            aRetourner[i] = (-1/this.lambda)*log(1-variable);
+            simulations[i] = (-1/this.lambda)*log(1-variable);
         }
-        return aRetourner;
     }
 
     /**

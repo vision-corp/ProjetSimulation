@@ -36,6 +36,7 @@ public class Normale extends Loi{
         this.ecartType = newEcartType;
         this.esperence = newEsperence;
         this.nbSimulations = newNbSimulation;
+        this.simulations = new double[nbSimulations];
     }
 
     /**
@@ -44,9 +45,7 @@ public class Normale extends Loi{
      * @throws ErreurParametresLoi
      */
     @Override
-    public double[] simuler() throws ErreurParametresLoi {
-
-        double[] aRetourner = new double[this.nbSimulations];
+    public void simuler() throws ErreurParametresLoi {
 
         double variable1, //Premiere variable a simuler
                variable2, //Deuxième variable a simuler
@@ -61,9 +60,8 @@ public class Normale extends Loi{
             normaleCentree = sqrt(-2*log(variable1))*cos(2*PI*variable2);
 
             // Calcul de la loi selon les paramettre choisis
-            aRetourner[i] = ecartType * normaleCentree + esperence;
+            simulations[i] = ecartType * normaleCentree + esperence;
         }
-        return aRetourner;
     }
 
     /**

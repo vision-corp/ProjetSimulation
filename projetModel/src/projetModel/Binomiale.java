@@ -47,7 +47,7 @@ public class Binomiale extends Loi{
 	 * @see projetModel.Loi#simuler()
 	 */
 	@Override
-	public double[] simuler() throws ErreurParametresLoi {
+	public void simuler() throws ErreurParametresLoi {
 		int nbVrai;
 		for(int j = 0; j < simulations.length ;j++) {
 			//simulation d'une seule loi binoiale grace a Bernouilli
@@ -59,7 +59,6 @@ public class Binomiale extends Loi{
 			}
 			simulations[j] = nbVrai/p;
 		}
-		return this.simulations;
 	}
 
 	@Override
