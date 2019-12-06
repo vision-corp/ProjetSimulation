@@ -47,4 +47,18 @@ public class Exponentielle extends Loi {
         }
         return aRetourner;
     }
+
+    /**
+     * @return l'esperance
+     */
+    public double esperence() {
+        return 1/lambda;
+    }
+
+    /**
+     * @return la variance
+     */
+    public double variance() {
+        return 1/(lambda*lambda);
+    }
 }

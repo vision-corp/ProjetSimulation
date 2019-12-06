@@ -57,10 +57,25 @@ public class Normale extends Loi{
             variable1 = random(); // Génération de la premiere valeur dans [0,1]
             variable2 = random(); // Génération de la deuxième valeur dans [0,1]
 
+            // Calcul de la loi normale centrée
             normaleCentree = sqrt(-2*log(variable1))*cos(2*PI*variable2);
+
+            // Calcul de la loi selon les paramettre choisis
             aRetourner[i] = ecartType * normaleCentree + esperence;
         }
-
         return aRetourner;
+    }
+
+    /**
+     * @return l'esperance
+     */
+    public double esperance() {
+        return esperence;
+    }
+    /**
+     * @return la variance
+     */
+    public double variance() {
+        return ecartType*ecartType;
     }
 }

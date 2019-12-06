@@ -35,6 +35,7 @@ public class TestClassesExpoNormale {
      * @param args non utilisé
      */
     public static void main(String[] args) {
-        //STUB
+        testExpo(0.1,10);
+        //testNormale();
     }
 }
