@@ -45,4 +45,18 @@ public class Binomiale extends Loi{
         return null;
     }
 
+	@Override
+	public double variance() throws ErreurParametresLoi {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double esperance() throws ErreurParametresLoi {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+    
+    
+
 }

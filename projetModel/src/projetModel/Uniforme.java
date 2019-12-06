@@ -47,4 +47,16 @@ public class Uniforme extends Loi{
         return this.simulations;
     }
 
+	@Override
+	public double variance() throws ErreurParametresLoi {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double esperance() throws ErreurParametresLoi {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

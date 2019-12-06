@@ -9,6 +9,8 @@
 
  */
 
+package projetModel;
+
 import static java.lang.Math.log;
 import static java.lang.Math.random;
 
@@ -49,16 +51,15 @@ public class Exponentielle extends Loi {
     }
 
     /**
-     * @return l'esperance
-     */
-    public double esperence() {
-        return 1/lambda;
-    }
-
-    /**
      * @return la variance
      */
+    @Override
     public double variance() {
         return 1/(lambda*lambda);
     }
+
+	@Override
+	public double esperance() throws ErreurParametresLoi {
+		return 1/lambda;
+	}
 }

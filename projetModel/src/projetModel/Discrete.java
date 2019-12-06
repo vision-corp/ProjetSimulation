@@ -70,4 +70,16 @@ public class Discrete extends Loi{
         
         return somme;
     }
+
+	@Override
+	public double variance() throws ErreurParametresLoi {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double esperance() throws ErreurParametresLoi {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

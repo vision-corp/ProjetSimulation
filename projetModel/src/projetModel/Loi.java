@@ -3,7 +3,7 @@
  * Pas de copyright
  */
 
-
+package projetModel;
 
 /**
  * Classe � impl�menter pour chaque loi simul�e
@@ -14,7 +14,7 @@
 public abstract class Loi{
 
     /** tableau de resultat de la simulation */
-    protected double[] simulations;
+    public double[] simulations;
     /** nombre de simulations */
     protected int nbSimulations;
 

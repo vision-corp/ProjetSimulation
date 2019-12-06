@@ -2,6 +2,12 @@
  * TestClasses          22/11/19
  * Pas de copyright ou de copyleft
  */
+package tests;
+
+import projetModel.Exponentielle;
+import projetModel.Normale;
+
+
 
 /**
  * Classe de test des classes Exponentielle.java et Normale.java

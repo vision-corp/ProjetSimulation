@@ -2,7 +2,7 @@
  * Normale.java                07/11/19
  * Pas de copyright ou de copyleft
  */
-
+package projetModel;
 
 import static java.lang.Math.*;
 
