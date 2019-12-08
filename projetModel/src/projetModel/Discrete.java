@@ -30,7 +30,7 @@ public class Discrete extends Loi{
     }
 
     @Override
-    public double[] simuler() throws ErreurParametresLoi {
+    public void simuler() throws ErreurParametresLoi {
         for(int i = 0; i < this.nbSimulations; i++) {
             this.simulations[i] = Math.round((Math.random() * valeurs.length));
         }
@@ -38,7 +38,7 @@ public class Discrete extends Loi{
         this.esperence = (1.0/(double)valeurs.length) * somme(valeurs);
         this.ecartType = Math.sqrt((1.0/(double)valeurs.length) * sommeCarre(valeurs) - (this.esperence * this.esperence));
 
-        return this.simulations;
+        
     }
     
     /**

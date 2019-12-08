@@ -57,7 +57,7 @@ public class Binomiale extends Loi{
 					nbVrai++;
 				}
 			}
-			simulations[j] = nbVrai/p;
+			simulations[j] = nbVrai;
 		}
 	}
 
