@@ -5,8 +5,8 @@
 package projetModel;
 
 /**
- * TODO commenter les responsabilités de cette classe
- * @author flori
+ * Simule une loi binomiale
+ * @author florian hyver
  *
  */
 public class Binomiale extends Loi{
