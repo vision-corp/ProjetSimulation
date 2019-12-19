@@ -4,6 +4,11 @@
  */
 package simulation.gui;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -28,6 +33,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import simulation.lois.Binomiale;
 import simulation.lois.Discrete;
 import simulation.lois.Exponentielle;
@@ -42,6 +48,7 @@ public class InterfaceGraphique {
 
 	private Scene scene;
 	private Button simuler;
+	private Button enregistrer;
 	private ComboBox<String> lois;
 
 	private TextArea valeurs;
@@ -54,7 +61,14 @@ public class InterfaceGraphique {
 	private Spinner<Integer> nbExperiences;
 	private Spinner<Integer> nbSimu;
 
-	LineChart<Number, Number> courbe;
+	private LineChart<Number, Number> courbe;
+
+	private FileChooser fileChooser;
+
+	private double[] tabValeurs;
+	private double[] tabValeursN;
+	private double[] tabValeursD;
+	private double[] tabValeursP;
 
 	/**
 	 * 
@@ -145,8 +159,12 @@ public class InterfaceGraphique {
 		simuler = new Button("Simuler");
 		simuler.setPrefSize(184.0, 32.0);
 
+		enregistrer = new Button("Enregistrer");
+		enregistrer.setPrefSize(184.0, 32.0);
+
 		lois.valueProperty().addListener(l -> {
 			boxChoix.getChildren().clear();
+			enregistrer.setDisable(true);
 			switch (lois.getValue()) {
 			case "Loi binomiale":
 				boxChoix.getChildren().addAll(
@@ -169,7 +187,7 @@ public class InterfaceGraphique {
 						valeurs, new Label("Probabilités associées"), probas);
 			}
 			boxChoix.getChildren().addAll(new Label("Nombre de simulations"),
-					nbSimu, blanc, simuler);
+					nbSimu, blanc, simuler, enregistrer);
 		});
 
 		NumberAxis xAxis = new NumberAxis();
@@ -187,34 +205,113 @@ public class InterfaceGraphique {
 
 		lois.getSelectionModel().select(0);
 
-		eventSimuler();
+		events();
 	}
 
 	/**
 	 * 
 	 */
-	private void eventSimuler() {
+	private void events() {
 		simuler.setOnAction(e -> {
 			courbe.getData().clear();
 			courbe.setLegendVisible(true);
+			boolean enr = true;
 			switch (lois.getValue()) {
 			case "Loi binomiale":
 				loiBinomiale();
 				break;
 			case "Loi uniforme discrète":
-				loiUniformeDiscrete();
+				enr = loiUniformeDiscrete();
 				break;
 			case "Loi exponentielle":
 				loiExponentielle();
 				break;
 			case "Loi normale":
-				loiNormale(esperance.getValue(), ecartType.getValue(), true);
+				loiNormale(esperance.getValue(), ecartType.getValue());
 				break;
 			case "Loi discrète":
-				loiDiscrete();
+				enr = loiDiscrete();
+			}
+			if (enr) {
+				enregistrer.setDisable(false);
 			}
 		});
 
+		fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters()
+				.add(new FileChooser.ExtensionFilter("CSV", "*.csv"));
+		enregistrer.setOnAction(e -> {
+			File csv;
+			if ((csv = fileChooser.showSaveDialog(scene.getWindow())) != null) {
+				try {
+					PrintWriter fichier = new PrintWriter(new FileWriter(csv));
+					if (lois.getValue() == "Loi normale") {
+						fichier.println("Simulation d'une loi normale");
+						fichier.println("Esperance : ;" + esperance.getValue());
+						fichier.println(
+								"Ecart-type : ;" + ecartType.getValue());
+						for (double d : tabValeursN) {
+							fichier.println(d);
+						}
+					} else {
+						switch (lois.getValue()) {
+						case "Loi binomiale":
+							fichier.println("Simulation d'une loi binomiale");
+							fichier.println("Proba de succès : ;"
+									+ virgule(succes.getValue()));
+							fichier.println("Nb d'exprériences : ;"
+									+ nbExperiences.getValue());
+							break;
+						case "Loi uniforme discrète":
+							fichier.println(
+									"Simulation d'une loi uniforme discrète");
+							fichier.print("Valeurs");
+							for (double d : tabValeursD) {
+								fichier.print(";" + virgule(d));
+							}
+							fichier.println();
+							fichier.print("Probas");
+							for (int i = 0; i < tabValeursD.length; i++) {
+								fichier.print(";"
+										+ virgule(1.0 / tabValeursD.length));
+							}
+							fichier.println();
+							break;
+						case "Loi exponentielle":
+							fichier.println(
+									"Simulation d'une loi exponentielle");
+							fichier.println(
+									"Lambda : ;" + virgule(lambda.getValue()));
+							break;
+						case "Loi discrète":
+							fichier.println("Simulation d'une loi discrète");
+							fichier.print("Valeurs");
+							for (double d : tabValeursD) {
+								fichier.print(";" + virgule(d));
+							}
+							fichier.println();
+							fichier.print("Probas");
+							for (double d : tabValeursP) {
+								fichier.print(";" + virgule(d));
+							}
+							fichier.println();
+						}
+
+						for (double d : tabValeurs) {
+							fichier.println(virgule(d));
+						}
+					}
+					fichier.close();
+				} catch (IOException e1) {
+					// Erreur d'acces au fichier
+				}
+			}
+		});
+
+	}
+
+	private String virgule(double d) {
+		return Double.toString(d).replace(".", ",");
 	}
 
 	/**
@@ -226,6 +323,7 @@ public class InterfaceGraphique {
 				succes.getValue(), nbSimu.getValue());
 		double esperance = bn.esperance();
 		double ecartType = Math.sqrt(bn.variance());
+		tabValeurs = bn.simuler();
 
 		Series<Number, Number> gauss = new Series<>();
 
@@ -248,19 +346,16 @@ public class InterfaceGraphique {
 			Series<Number, Number> probas = new Series<>();
 			probas.getData().add(new Data<Number, Number>(x, 0));
 			probas.getData().add(new Data<Number, Number>(x, bn.proba(x)));
-			System.out.println(bn.proba(x));
 			courbe.getData().add(probas);
 			Node line = probas.getNode().lookup(".chart-series-line");
 			line.setStyle("-fx-stroke: red;");
 		}
-
-		Enregistrer.enregistrer(bn.simuler(), 'B');
 	}
 
 	/**
 	 * 
 	 */
-	private void loiUniformeDiscrete() {
+	private boolean loiUniformeDiscrete() {
 		String[] valeursTexte = liste.getText().split(";");
 		double[] valeursDouble = new double[valeursTexte.length];
 
@@ -273,13 +368,15 @@ public class InterfaceGraphique {
 			alert.setHeaderText("Valeurs au mauvais format");
 			alert.setContentText("Format correct : 3.2;5.9;-6.2");
 			alert.show();
-			return;
+			return false;
 		}
+		tabValeursD = valeursDouble;
 
 		UniformeDiscrete ud = new UniformeDiscrete(valeursDouble,
 				nbSimu.getValue());
 		double[] resultat = ud.simuler();
-		loiNormale(ud.esperance(), Math.sqrt(ud.variance()), false);
+		loiNormale(ud.esperance(), Math.sqrt(ud.variance()));
+		tabValeurs = resultat;
 
 		Series<Number, Number> serieUD = new Series<>();
 		serieUD.setName("Loi uniforme discrète");
@@ -292,7 +389,7 @@ public class InterfaceGraphique {
 		}
 
 		courbe.getData().add(serieUD);
-		Enregistrer.enregistrer(resultat, 'U');
+		return true;
 	}
 
 	/**
@@ -303,7 +400,8 @@ public class InterfaceGraphique {
 		Exponentielle ex = new Exponentielle(lambda.getValue(),
 				nbSimu.getValue());
 		double[] resultatExp = ex.simuler();
-		loiNormale(ex.esperance(), Math.sqrt(ex.variance()), false);
+		loiNormale(ex.esperance(), Math.sqrt(ex.variance()));
+		tabValeurs = resultatExp;
 
 		Series<Number, Number> serieEX = new Series<>();
 		serieEX.setName("Loi uniforme discrète");
@@ -316,20 +414,20 @@ public class InterfaceGraphique {
 		}
 
 		courbe.getData().add(serieEX);
-		Enregistrer.enregistrer(resultatExp, 'E');
 
 	}
 
 	/**
 	 * 
 	 */
-	private void loiNormale(double esperance, double ecartType, boolean enr) {
+	private void loiNormale(double esperance, double ecartType) {
 
 		Normale n = new Normale(esperance, ecartType, nbSimu.getValue());
 		double[] resultatNormal = n.simuler();
+		tabValeursN = resultatNormal;
 
 		Series<Number, Number> serieN = new Series<>();
-		serieN.setName("Loi normale approchée");
+		serieN.setName("Loi normale");
 
 		double somme = 0;
 		for (int i = 0; i < resultatNormal.length; i++) {
@@ -339,15 +437,12 @@ public class InterfaceGraphique {
 		}
 
 		courbe.getData().add(serieN);
-
-		if (enr)
-			Enregistrer.enregistrer(resultatNormal, 'N');
 	}
 
 	/**
 	 * 
 	 */
-	private void loiDiscrete() {
+	private boolean loiDiscrete() {
 		String[] valeursTexte = valeurs.getText().split(";");
 		double[] valeursDouble = new double[valeursTexte.length];
 
@@ -360,7 +455,7 @@ public class InterfaceGraphique {
 			alert.setContentText(
 					"Une et une seule proba doit être associée à une valeur");
 			alert.show();
-			return;
+			return false;
 		}
 
 		try {
@@ -376,9 +471,11 @@ public class InterfaceGraphique {
 			alert.setHeaderText("Valeurs au mauvais format");
 			alert.setContentText("Format correct : 3.2;5.9;-6.2");
 			alert.show();
-			return;
+			return false;
 		}
 
+		tabValeursD = valeursDouble;
+		tabValeursP = probasDouble;
 		double sommeVerif = 0; // Initialisation de la somme des probas a 0
 
 		// Fait la somme des probas
@@ -392,13 +489,14 @@ public class InterfaceGraphique {
 			alert.setContentText(
 					"La somme des probabilités doit être égale à 1");
 			alert.show();
-			return;
+			return false;
 		}
 
 		Discrete dis = new Discrete(valeursDouble, probasDouble,
 				nbSimu.getValue());
 		double[] resultatDis = dis.simuler();
-		loiNormale(dis.esperance(), Math.sqrt(dis.variance()), false);
+		loiNormale(dis.esperance(), Math.sqrt(dis.variance()));
+		tabValeurs = resultatDis;
 
 		Series<Number, Number> serieDIS = new Series<>();
 		serieDIS.setName("Loi uniforme discrète");
@@ -411,7 +509,7 @@ public class InterfaceGraphique {
 		}
 
 		courbe.getData().add(serieDIS);
-		Enregistrer.enregistrer(resultatDis, 'D');
+		return true;
 
 	}
 
