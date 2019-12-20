@@ -404,7 +404,7 @@ public class InterfaceGraphique {
 		tabValeurs = resultatExp;
 
 		Series<Number, Number> serieEX = new Series<>();
-		serieEX.setName("Loi uniforme discrète");
+		serieEX.setName("Loi exponentielle");
 
 		double somme = 0;
 		for (int i = 0; i < resultatExp.length; i++) {
@@ -499,7 +499,7 @@ public class InterfaceGraphique {
 		tabValeurs = resultatDis;
 
 		Series<Number, Number> serieDIS = new Series<>();
-		serieDIS.setName("Loi uniforme discrète");
+		serieDIS.setName("Loi discrète");
 
 		double somme = 0;
 		for (int i = 0; i < resultatDis.length; i++) {
