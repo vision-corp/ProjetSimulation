@@ -227,7 +227,7 @@ public class InterfaceGraphique {
 				loiExponentielle();
 				break;
 			case "Loi normale":
-				loiNormale(esperance.getValue(), ecartType.getValue());
+				loiNormale();
 				break;
 			case "Loi discrète":
 				enr = loiDiscrete();
@@ -375,8 +375,14 @@ public class InterfaceGraphique {
 		UniformeDiscrete ud = new UniformeDiscrete(valeursDouble,
 				nbSimu.getValue());
 		double[] resultat = ud.simuler();
-		loiNormale(ud.esperance(), Math.sqrt(ud.variance()));
 		tabValeurs = resultat;
+		
+		Series<Number, Number> esp = new Series<>();
+		esp.setName("Esperance");
+		esp.getData().add(new Data<Number, Number>(1, ud.esperance()));
+		esp.getData().add(
+				new Data<Number, Number>(resultat.length, ud.esperance()));
+		courbe.getData().add(esp);
 
 		Series<Number, Number> serieUD = new Series<>();
 		serieUD.setName("Loi uniforme discrète");
@@ -400,8 +406,14 @@ public class InterfaceGraphique {
 		Exponentielle ex = new Exponentielle(lambda.getValue(),
 				nbSimu.getValue());
 		double[] resultatExp = ex.simuler();
-		loiNormale(ex.esperance(), Math.sqrt(ex.variance()));
 		tabValeurs = resultatExp;
+		
+		Series<Number, Number> esp = new Series<>();
+		esp.setName("Esperance");
+		esp.getData().add(new Data<Number, Number>(1, ex.esperance()));
+		esp.getData().add(
+				new Data<Number, Number>(resultatExp.length, ex.esperance()));
+		courbe.getData().add(esp);
 
 		Series<Number, Number> serieEX = new Series<>();
 		serieEX.setName("Loi exponentielle");
@@ -420,11 +432,19 @@ public class InterfaceGraphique {
 	/**
 	 * 
 	 */
-	private void loiNormale(double esperance, double ecartType) {
+	private void loiNormale() {
 
-		Normale n = new Normale(esperance, ecartType, nbSimu.getValue());
+		Normale n = new Normale(esperance.getValue(), ecartType.getValue(),
+				nbSimu.getValue());
 		double[] resultatNormal = n.simuler();
 		tabValeursN = resultatNormal;
+
+		Series<Number, Number> esp = new Series<>();
+		esp.setName("Esperance");
+		esp.getData().add(new Data<Number, Number>(1, n.esperance()));
+		esp.getData().add(
+				new Data<Number, Number>(resultatNormal.length, n.esperance()));
+		courbe.getData().add(esp);
 
 		Series<Number, Number> serieN = new Series<>();
 		serieN.setName("Loi normale");
@@ -495,8 +515,14 @@ public class InterfaceGraphique {
 		Discrete dis = new Discrete(valeursDouble, probasDouble,
 				nbSimu.getValue());
 		double[] resultatDis = dis.simuler();
-		loiNormale(dis.esperance(), Math.sqrt(dis.variance()));
 		tabValeurs = resultatDis;
+		
+		Series<Number, Number> esp = new Series<>();
+		esp.setName("Esperance");
+		esp.getData().add(new Data<Number, Number>(1, dis.esperance()));
+		esp.getData().add(
+				new Data<Number, Number>(resultatDis.length, dis.esperance()));
+		courbe.getData().add(esp);
 
 		Series<Number, Number> serieDIS = new Series<>();
 		serieDIS.setName("Loi discrète");
